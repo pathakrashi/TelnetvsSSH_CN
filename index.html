@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TELNET vs SSH | Network Security</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">NET<span>SEC</span></div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#modules">Modules</a>
+            <a href="#comparison">Comparison</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="tag">COMPUTER NETWORKS MINI PROJECT</p>
+            <h1>TELNET <span>vs</span> SSH</h1>
+            <h2>Security Demonstration of Remote Communication</h2>
+            <p>
+                Understand the difference between plaintext communication
+                and encrypted remote access through practical demonstrations.
+            </p>
+            <a href="#modules" class="primary-btn">Explore Modules</a>
+        </div>
+
+        <div class="hero-card">
+            <div class="shield">🔐</div>
+            <h3>Secure Communication</h3>
+            <p>Compare traditional remote access with secure SSH communication.</p>
+            <div class="status"><span class="dot"></span> Project Modules</div>
+        </div>
+    </section>
+
+    <section class="section" id="modules">
+        <p class="tag">PROJECT DEMONSTRATIONS</p>
+        <h2>Explore the Modules</h2>
+        <p class="section-desc">Select a module to view its inputs and instructions.</p>
+
+        <div class="module-grid">
+            <article class="module-card telnet">
+                <div class="card-icon">01</div>
+                <h3>TELNET Server</h3>
+                <p>Configure the demonstration server and view its run instructions.</p>
+                <span class="badge danger">Plaintext Demo</span>
+                <button type="button" onclick="showModule('server')">Open Module</button>
+            </article>
+
+            <article class="module-card telnet">
+                <div class="card-icon">02</div>
+                <h3>TELNET Client</h3>
+                <p>Enter server details, username, password and a test message.</p>
+                <span class="badge danger">Unencrypted TCP</span>
+                <button type="button" onclick="showModule('client')">Open Module</button>
+            </article>
+
+            <article class="module-card ssh">
+                <div class="card-icon">03</div>
+                <h3>SSH Client</h3>
+                <p>Enter SSH server details and authentication information.</p>
+                <span class="badge safe">Encrypted Protocol</span>
+                <button type="button" onclick="showModule('ssh')">Open Module</button>
+            </article>
+
+            <article class="module-card ssh">
+                <div class="card-icon">04</div>
+                <h3>SSH Security Simulation</h3>
+                <p>Demonstrate password masking and secure-login concepts.</p>
+                <span class="badge safe">Security Simulation</span>
+                <button type="button" onclick="showModule('simulation')">Open Module</button>
+            </article>
+        </div>
+    </section>
+
+    <section class="demo-section" id="demo">
+        <div class="demo-info">
+            <p class="tag">MODULE INFORMATION</p>
+            <h2 id="module-title">Welcome to the Demo</h2>
+            <p id="module-description">
+                Select a module above to see its input fields and instructions.
+            </p>
+
+            <h3>How to Run</h3>
+            <ol id="module-steps">
+                <li>Select a module.</li>
+                <li>Enter the requested information.</li>
+                <li>Run the corresponding Python module for real network activity.</li>
+            </ol>
+
+            <div id="module-form"></div>
+
+            <button type="button" class="secondary-btn" onclick="showRunGuide()">
+                Show Run Guide
+            </button>
+        </div>
+
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dots"><span></span><span></span><span></span></div>
+                <span>Demo Information</span>
+            </div>
+            <div class="terminal-body" id="terminal-output" aria-live="polite">
+                <p class="terminal-green">Network Security Project</p>
+                <p>Choose a module to see its details.</p>
+                <p class="terminal-muted">
+                    This panel displays information. It does not execute Python scripts.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section comparison" id="comparison">
+        <p class="tag">SECURITY ANALYSIS</p>
+        <h2>TELNET vs SSH</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>TELNET</th><th>SSH</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Communication</td><td>Plaintext</td><td>Encrypted</td></tr>
+                    <tr><td>Default Port</td><td>23</td><td>22</td></tr>
+                    <tr><td>Security</td><td>Low</td><td>High when properly configured</td></tr>
+                    <tr><td>Use</td><td>Testing and legacy systems</td><td>Secure remote access</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        <p>TELNET vs SSH | Computer Networks Mini Project</p>
+        <p>Educational demonstration of network security</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
