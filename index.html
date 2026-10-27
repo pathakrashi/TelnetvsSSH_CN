@@ -1,149 +1,358 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELNET vs SSH | Network Security</title>
+    <meta name="description" content="TELNET vs SSH - Computer Networks Security Demonstration">
+    <title>TELNET vs SSH | PVG's College of Engineering, Nashik</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <header class="navbar">
-        <div class="brand">
-            <img src="pvg.jpg" alt="College logo" class="brand-logo">
-            <div class="logo">NET<span>SEC</span></div>
-        </div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#modules">Modules</a>
-            <a href="#comparison">Comparison</a>
-        </nav>
-    </header>
+<header class="navbar">
+    <a href="#home" class="college-brand">
+        <img src="images/pvg.jpg" alt="College emblem" class="college-logo">
+        <span class="college-name">
+            PVG's College of Engineering &
+            Shrikrushna S. Dhamankar Institute of Management
+            <small>Nashik, Maharashtra</small>
+        </span>
+    </a>
 
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#demo">Demonstration</a>
+        <a href="#packet-lab">Packet Lab</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#about">About</a>
+    </nav>
+</header>
+
+<main>
+
+    <!-- HOME SECTION -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h3 class="college-name">Pune Vidyarthi Griha’s College of Engineering &amp; Shrikrushna S. Dhamankar Institute of Management, Nashik</h3>
-            <p class="university-name">Savitribai Phule Pune University</p>
-            <p class="tag">COMPUTER NETWORKS MINI PROJECT</p>
+            <p class="eyebrow">COMPUTER NETWORKS MINI PROJECT</p>
+
             <h1>TELNET <span>vs</span> SSH</h1>
-            <h2>Security Demonstration of Remote Communication</h2>
-            <p>
-                Understand the difference between plaintext communication
-                and encrypted remote access through practical demonstrations.
-            </p>
-            <a href="#modules" class="primary-btn">Explore Modules</a>
-        </div>
 
-        <div class="hero-card">
-            <div class="shield">🔐</div>
-            <h3>Secure Communication</h3>
-            <p>Compare traditional remote access with secure SSH communication.</p>
-            <div class="status"><span class="dot"></span> Project Modules</div>
-        </div>
-    </section>
+            <h2>Understanding Remote Communication Security</h2>
 
-    <section class="section" id="modules">
-        <p class="tag">PROJECT DEMONSTRATIONS</p>
-        <h2>Explore the Modules</h2>
-        <p class="section-desc">Select a module to view its inputs and instructions.</p>
-
-        <div class="module-grid">
-            <article class="module-card telnet">
-                <div class="card-icon">01</div>
-                <h3>TELNET Server</h3>
-                <p>Configure the demonstration server and view its run instructions.</p>
-                <span class="badge danger">Plaintext Demo</span>
-                <button type="button" onclick="showModule('server')">Open Module</button>
-            </article>
-
-            <article class="module-card telnet">
-                <div class="card-icon">02</div>
-                <h3>TELNET Client</h3>
-                <p>Enter server details, username, password and a test message.</p>
-                <span class="badge danger">Unencrypted TCP</span>
-                <button type="button" onclick="showModule('client')">Open Module</button>
-            </article>
-
-            <article class="module-card ssh">
-                <div class="card-icon">03</div>
-                <h3>SSH Client</h3>
-                <p>Enter SSH server details and authentication information.</p>
-                <span class="badge safe">Encrypted Protocol</span>
-                <button type="button" onclick="showModule('ssh')">Open Module</button>
-            </article>
-
-            <article class="module-card ssh">
-                <div class="card-icon">04</div>
-                <h3>SSH Security Simulation</h3>
-                <p>Demonstrate password masking and secure-login concepts.</p>
-                <span class="badge safe">Security Simulation</span>
-                <button type="button" onclick="showModule('simulation')">Open Module</button>
-            </article>
-        </div>
-    </section>
-
-    <section class="demo-section" id="demo">
-        <div class="demo-info">
-            <p class="tag">MODULE INFORMATION</p>
-            <h2 id="module-title">Welcome to the Demo</h2>
-            <p id="module-description">
-                Select a module above to see its input fields and instructions.
+            <p class="intro">
+                Explore how remote communication works and discover
+                why encryption is essential for protecting sensitive information.
             </p>
 
-            <h3>How to Run</h3>
-            <ol id="module-steps">
-                <li>Select a module.</li>
-                <li>Enter the requested information.</li>
-                <li>Run the corresponding Python module for real network activity.</li>
-            </ol>
+            <a href="#demo" class="primary-btn">Explore Demonstration ↓</a>
 
-            <div id="module-form"></div>
-
-            <button type="button" class="secondary-btn" onclick="showRunGuide()">
-                Show Run Guide
-            </button>
-        </div>
-
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dots"><span></span><span></span><span></span></div>
-                <span>Demo Information</span>
+            <div class="stats">
+                <div>
+                    <strong>23</strong>
+                    <small>TELNET default port</small>
+                </div>
+                <div>
+                    <strong>22</strong>
+                    <small>SSH default port</small>
+                </div>
+                <div>
+                    <strong>Encryption</strong>
+                    <small>SSH security</small>
+                </div>
             </div>
-            <div class="terminal-body" id="terminal-output" aria-live="polite">
-                <p class="terminal-green">Network Security Project</p>
-                <p>Choose a module to see its details.</p>
-                <p class="terminal-muted">
-                    This panel displays information. It does not execute Python scripts.
+        </div>
+    </section>
+
+    <!-- ORIGINAL TELNET AND SSH DEMONSTRATION -->
+    <section class="section" id="demo">
+        <p class="eyebrow">INTERACTIVE LAB</p>
+        <h2>Security Demonstration</h2>
+
+        <p class="muted">
+            Compare the security characteristics of TELNET and SSH.
+            These browser demonstrations are simulations, not live network connections.
+        </p>
+
+        <div class="demo-grid">
+
+            <!-- TELNET -->
+            <article class="panel telnet-panel">
+                <div class="panel-heading">
+                    <span class="status red"></span>
+                    <h3>TELNET</h3>
+                    <span class="tag danger">Unencrypted</span>
+                </div>
+
+                <p>
+                    TELNET does not encrypt session traffic.
+                    Credentials can be exposed to someone who can observe the traffic.
                 </p>
-            </div>
+
+                <label for="tel-user">Sample username</label>
+                <input id="tel-user" type="text" value="student" autocomplete="off">
+
+                <label for="tel-pass">Sample password</label>
+                <input id="tel-pass" type="password" value="demo123" autocomplete="off">
+
+                <button id="tel-btn" class="danger-btn" type="button">
+                    Run TELNET Demo
+                </button>
+
+                <div class="terminal">
+                    <div class="terminal-top">● ● ● <span>Terminal Output</span></div>
+                    <pre id="tel-output">Waiting for demonstration...</pre>
+                </div>
+            </article>
+
+            <!-- SSH -->
+            <article class="panel ssh-panel">
+                <div class="panel-heading">
+                    <span class="status green"></span>
+                    <h3>SSH</h3>
+                    <span class="tag safe">Encrypted</span>
+                </div>
+
+                <p>
+                    SSH uses encrypted transport to protect data and provides
+                    cryptographic integrity protection.
+                </p>
+
+                <label for="ssh-user">Sample username</label>
+                <input id="ssh-user" type="text" value="student" autocomplete="off">
+
+                <label for="ssh-pass">Sample password</label>
+                <input id="ssh-pass" type="password" value="demo123" autocomplete="off">
+
+                <button id="ssh-btn" class="safe-btn" type="button">
+                    Run SSH Demo
+                </button>
+
+                <div class="terminal">
+                    <div class="terminal-top">● ● ● <span>Terminal Output</span></div>
+                    <pre id="ssh-output">Waiting for demonstration...</pre>
+                </div>
+            </article>
+
         </div>
+
+        <p class="note">
+            Educational simulation only. Sample credentials are not sent to a server.
+        </p>
     </section>
 
+    <!-- NEW PACKET SECURITY LAB -->
+    <section class="section packet-lab" id="packet-lab">
+        <p class="eyebrow">INTERACTIVE PACKET SIMULATION</p>
+        <h2>Packet Security Lab</h2>
+
+        <p class="muted">
+            Send a sample message and compare what an observer can see
+            when using TELNET versus SSH-style encryption.
+        </p>
+
+        <div class="packet-controls">
+
+            <div>
+                <label for="packet-protocol">Choose protocol</label>
+                <select id="packet-protocol">
+                    <option value="telnet">TELNET — Plaintext</option>
+                    <option value="ssh">SSH — Encrypted</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="packet-username">Username</label>
+                <input
+                    id="packet-username"
+                    type="text"
+                    value="student"
+                    placeholder="Enter username"
+                    autocomplete="off"
+                    maxlength="100"
+                >
+            </div>
+
+            <div>
+                <label for="packet-password">Password</label>
+                <input
+                    id="packet-password"
+                    type="password"
+                    placeholder="Enter sample password"
+                    autocomplete="off"
+                    maxlength="200"
+                >
+            </div>
+
+            <div>
+                <label for="packet-message" id="packet-message-label">
+                    Message to send
+                </label>
+                <input
+                    id="packet-message"
+                    type="text"
+                    value="Hello from the website"
+                    maxlength="200"
+                    placeholder="Enter a message"
+                    autocomplete="off"
+                >
+            </div>
+
+            <button id="send-packet-btn" class="primary-btn" type="button">
+                Send Packet
+            </button>
+
+        </div>
+
+        <div class="packet-flow" id="packet-flow">
+            <div class="packet-node">
+                <span>💻</span>
+                <strong>Client</strong>
+                <small>Original message</small>
+            </div>
+
+            <div class="packet-channel">
+                <span id="channel-label">Plaintext channel</span>
+                <div class="packet-track">
+                    <div class="packet-dot" id="packet-dot"></div>
+                </div>
+            </div>
+
+            <div class="packet-node">
+                <span>🖥️</span>
+                <strong>Server</strong>
+                <small>Receives data</small>
+            </div>
+        </div>
+
+        <div class="packet-results">
+            <article class="packet-card">
+                <h3>What an observer sees</h3>
+                <p id="observer-status" class="packet-status status-clear">
+                    Waiting for a packet...
+                </p>
+                <pre id="observer-output">No data observed yet.</pre>
+            </article>
+
+            <article class="packet-card">
+                <h3>What the server receives</h3>
+                <p id="server-status" class="packet-status">
+                    Waiting for a packet...
+                </p>
+                <pre id="server-output">No data received yet.</pre>
+            </article>
+        </div>
+
+        <p class="note">
+            The Packet Lab sends sample credentials to your local Python backend.
+            Use demo credentials only. SSH requires a running, trusted SSH server.
+        </p>
+    </section>
+
+    <!-- COMPARISON TABLE -->
     <section class="section comparison" id="comparison">
-        <p class="tag">SECURITY ANALYSIS</p>
+        <p class="eyebrow">PROTOCOL ANALYSIS</p>
         <h2>TELNET vs SSH</h2>
+
+        <p class="muted">
+            A comparison of the two remote communication protocols.
+        </p>
+
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr><th>Feature</th><th>TELNET</th><th>SSH</th></tr>
+                    <tr>
+                        <th>Feature</th>
+                        <th>TELNET</th>
+                        <th>SSH</th>
+                    </tr>
                 </thead>
+
                 <tbody>
-                    <tr><td>Communication</td><td>Plaintext</td><td>Encrypted</td></tr>
-                    <tr><td>Default Port</td><td>23</td><td>22</td></tr>
-                    <tr><td>Security</td><td>Low</td><td>High when properly configured</td></tr>
-                    <tr><td>Use</td><td>Testing and legacy systems</td><td>Secure remote access</td></tr>
+                    <tr>
+                        <td>Full form</td>
+                        <td>Teletype Network</td>
+                        <td>Secure Shell</td>
+                    </tr>
+                    <tr>
+                        <td>Default TCP port</td>
+                        <td>23</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>Encryption</td>
+                        <td>Not provided</td>
+                        <td>Provided</td>
+                    </tr>
+                    <tr>
+                        <td>Credential protection</td>
+                        <td>Plaintext exposure risk</td>
+                        <td>Protected in transit</td>
+                    </tr>
+                    <tr>
+                        <td>Integrity protection</td>
+                        <td>No cryptographic protection</td>
+                        <td>Cryptographic protection</td>
+                    </tr>
+                    <tr>
+                        <td>Typical use</td>
+                        <td>Legacy systems and labs</td>
+                        <td>Secure remote administration</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <footer>
-        <p>Pune Vidyarthi Griha’s College of Engineering &amp; Shrikrushna S. Dhamankar Institute of Management, Nashik</p>
-        <p>Savitribai Phule Pune University</p>
-        <p>TELNET vs SSH | Computer Networks Mini Project</p>
-        <p>Educational demonstration of network security</p>
-    </footer>
+    <!-- ABOUT SECTION -->
+    <section class="section about" id="about">
+        <p class="eyebrow">PROJECT OVERVIEW</p>
+        <h2>Objectives &amp; Conclusion</h2>
 
-    <script src="script.js"></script>
+        <div class="info-grid">
+            <article class="info-card">
+                <h3>Project Objectives</h3>
+                <ul>
+                    <li>Understand remote communication protocols.</li>
+                    <li>Study the security limitations of TELNET.</li>
+                    <li>Understand SSH encryption.</li>
+                    <li>Compare default ports and security features.</li>
+                    <li>Demonstrate why secure remote access matters.</li>
+                </ul>
+            </article>
+
+            <article class="info-card">
+                <h3>Conclusion</h3>
+                <p>
+                    TELNET does not encrypt its traffic, creating a risk of
+                    credential exposure. SSH protects communications through
+                    encryption and integrity protection and supports server
+                    authentication when configured correctly. SSH is therefore
+                    preferred for secure remote administration.
+                </p>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-brand">
+        <img src="images/pvg.jpg" alt="" class="footer-logo">
+        <div>
+            <strong>PVG's College of Engineering &amp;</strong>
+            <p>Shrikrushna S. Dhamankar Institute of Management, Nashik</p>
+        </div>
+    </div>
+
+    <p class="footer-project">
+        TELNET vs SSH | Computer Networks Mini Project
+    </p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
