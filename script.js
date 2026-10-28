@@ -1,360 +1,275 @@
 
-const modules = {
-    server: {
-        title: "TELNET Server",
-        description:
-            "Configure the demonstration server. The default host is 127.0.0.1 and the demonstration port is 5000.",
-        steps: [
-            "Open a terminal in your project folder.",
-            "Run: python telnet_server.py",
-            "Keep the server terminal running.",
-            "Open the TELNET Client module to enter connection details."
-        ],
-        output: [
-            "Module: TELNET Server",
-            "Default host: 127.0.0.1",
-            "Default demonstration port: 5000",
-            "Status: Configure the server in the form."
-        ]
-    },
+const API_URL = "http://127.0.0.1:5000/api/send";
 
-    client: {
-        title: "TELNET Client",
-        description:
-            "Enter the server address and demo credentials. This form validates inputs but does not yet send them to the Python server.",
-        steps: [
-            "Start your Python TELNET server first.",
-            "Enter the server host and port.",
-            "Enter a demo username, password and message.",
-            "For real communication, run your Python TELNET client."
-        ],
-        output: [
-            "Module: TELNET Client",
-            "Protocol: TCP demonstration",
-            "Default host: 127.0.0.1",
-            "Status: Waiting for input."
-        ]
-    },
+// =====================================================
+// TELNET DEMO — REAL BACKEND CONNECTION
+// =====================================================
 
-    ssh: {
-        title: "SSH Client",
-        description:
-            "Enter the hostname, SSH port and login information. Actual SSH authentication must be handled by your Python SSH client.",
-        steps: [
-            "Make sure an SSH server is running and reachable.",
-            "Install Paramiko if required: python -m pip install paramiko",
-            "Enter the SSH server host, port and username.",
-            "Run your Python SSH client to establish the real connection."
-        ],
-        output: [
-            "Module: SSH Client",
-            "Default host: 127.0.0.1",
-            "Default port: 22",
-            "Status: A real SSH connection is not started by this webpage."
-        ]
-    },
+const telButton = document.getElementById("tel-btn");
 
-    simulation: {
-        title: "SSH Security Simulation",
-        description:
-            "Enter a demo username and password to see a simulated secure-login message. This does not contact an SSH server.",
-        steps: [
-            "Enter a demonstration username.",
-            "Enter a demo password.",
-            "Click Run Simulation.",
-            "Discuss why SSH encrypts communication."
-        ],
-        output: [
-            "Module: SSH Security Simulation",
-            "Password field: Masked",
-            "Purpose: Demonstrate secure-login concepts",
-            "Mode: Frontend simulation only."
-        ]
-    }
-};
+if (telButton) {
+    telButton.addEventListener("click", async () => {
+        const username = document.getElementById("tel-user").value.trim();
+        const password = document.getElementById("tel-pass").value;
+        const output = document.getElementById("tel-output");
 
-function displayTerminal(lines) {
-    const terminal = document.getElementById("terminal-output");
-    terminal.replaceChildren();
+        if (!username || !password) {
+            output.textContent = "Please enter your username and password.";
+            return;
+        }
 
-    lines.forEach(function(line, index) {
-        const paragraph = document.createElement("p");
-        paragraph.textContent = "> " + line;
-        paragraph.className =
-            index === 0 ? "terminal-green" : "terminal-muted";
+        telButton.disabled = true;
+        output.textContent = "Connecting to TELNET server...";
 
-        terminal.appendChild(paragraph);
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    protocol: "telnet",
+                    username: username,
+                    password: password,
+                    message: "Hello from the TELNET demo"
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || "TELNET request failed.");
+            }
+
+            output.textContent =
+                "TELNET CLIENT — REAL CONNECTION\n" +
+                "Transport: Unencrypted (Plaintext)\n\n" +
+                "Username: " + username + "\n" +
+                "Password: " + password + "\n\n" +
+                "Observer can potentially read the transmitted data.\n\n" +
+                "Server response:\n" +
+                (result.server || "No server output.");
+
+        } catch (error) {
+            output.textContent =
+                "TELNET connection failed:\n" + error.message;
+        } finally {
+            telButton.disabled = false;
+        }
     });
 }
 
-function showModule(moduleName) {
-    const module = modules[moduleName];
 
-    if (!module) {
+// =====================================================
+// SSH DEMO — REAL BACKEND CONNECTION
+// =====================================================
+
+const sshButton = document.getElementById("ssh-btn");
+
+if (sshButton) {
+    sshButton.addEventListener("click", async () => {
+        const username = document.getElementById("ssh-user").value.trim();
+        const password = document.getElementById("ssh-pass").value;
+        const output = document.getElementById("ssh-output");
+
+        if (!username || !password) {
+            output.textContent =
+                "Please enter your Windows SSH username and password.";
+            return;
+        }
+
+        sshButton.disabled = true;
+        output.textContent = "Connecting to SSH server...";
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    protocol: "ssh",
+                    username: username,
+                    password: password,
+                    message: "whoami"
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || "SSH request failed.");
+            }
+
+            const maskedPassword = "*".repeat(password.length);
+
+            output.textContent =
+                "SSH CLIENT — REAL CONNECTION\n" +
+                "Transport: SSH encrypted connection\n\n" +
+                "Application data is protected in transit by SSH.\n\n" +
+                "Authentication: Successful\n" +
+                "Username: " + username + "\n" +
+                "Password: " + maskedPassword + "\n\n" +
+                "Server response:\n" +
+                (result.server || "No server output.");
+
+        } catch (error) {
+            output.textContent =
+                "SSH connection failed:\n" + error.message;
+        } finally {
+            sshButton.disabled = false;
+        }
+    });
+}
+
+
+// =====================================================
+// PACKET SECURITY LAB — REAL PYTHON BACKEND
+// =====================================================
+
+const protocolInput = document.getElementById("packet-protocol");
+const usernameInput = document.getElementById("packet-username");
+const passwordInput = document.getElementById("packet-password");
+const messageInput = document.getElementById("packet-message");
+const messageLabel = document.getElementById("packet-message-label");
+const sendButton = document.getElementById("send-packet-btn");
+
+const channelLabel = document.getElementById("channel-label");
+const packetFlow = document.getElementById("packet-flow");
+const observerStatus = document.getElementById("observer-status");
+const observerOutput = document.getElementById("observer-output");
+const serverStatus = document.getElementById("server-status");
+const serverOutput = document.getElementById("server-output");
+
+
+function updateProtocolDisplay() {
+    if (!protocolInput || !messageLabel || !messageInput || !channelLabel) {
         return;
     }
 
-    document.getElementById("module-title").textContent = module.title;
-    document.getElementById("module-description").textContent =
-        module.description;
+    const protocol = protocolInput.value;
 
-    const stepsList = document.getElementById("module-steps");
-    stepsList.replaceChildren();
+    if (protocol === "ssh") {
+        messageLabel.textContent = "Command to run (whoami or hostname)";
+        messageInput.value = "whoami";
+        messageInput.placeholder = "whoami or hostname";
+        channelLabel.textContent = "SSH encrypted transport";
+    } else {
+        messageLabel.textContent = "Message to send";
+        messageInput.value = "Hello from the website";
+        messageInput.placeholder = "Enter a message";
+        channelLabel.textContent = "Plaintext channel";
+    }
 
-    module.steps.forEach(function(step) {
-        const item = document.createElement("li");
-        item.textContent = step;
-        stepsList.appendChild(item);
-    });
-
-    displayTerminal(module.output);
-    renderModuleForm(moduleName);
-
-    document.getElementById("demo").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    if (packetFlow) {
+        packetFlow.classList.toggle("is-telnet", protocol === "telnet");
+        packetFlow.classList.toggle("is-ssh", protocol === "ssh");
+    }
 }
 
-function renderModuleForm(moduleName) {
-    const container = document.getElementById("module-form");
 
-    const forms = {
-        server: `
-            <div class="module-form-box">
-                <h3>TELNET Server Settings</h3>
+if (protocolInput) {
+    protocolInput.addEventListener("change", updateProtocolDisplay);
+    updateProtocolDisplay();
+}
 
-                <form id="server-form">
-                    <label for="server-host">Server Host</label>
-                    <input id="server-host" value="127.0.0.1"
-                           required>
 
-                    <label for="server-port">Port</label>
-                    <input id="server-port" type="number"
-                           value="5000" min="1" max="65535" required>
+if (
+    sendButton &&
+    protocolInput &&
+    usernameInput &&
+    passwordInput &&
+    messageInput &&
+    observerStatus &&
+    observerOutput &&
+    serverStatus &&
+    serverOutput
+) {
+    sendButton.addEventListener("click", async () => {
+        const protocol = protocolInput.value;
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        const message = messageInput.value.trim();
 
-                    <button type="submit">Check Settings</button>
-                    <button type="button" class="stop-btn"
-                            id="stop-server">Reset Form</button>
-                </form>
+        if (!username || !password || !message) {
+            observerStatus.textContent = "Missing information";
+            observerOutput.textContent =
+                "Enter a username, password, and message or command.";
+            return;
+        }
 
-                <p class="form-status" id="form-status"
-                   aria-live="polite"></p>
-                <p class="form-note">
-                    This form does not start a real server.
-                    Run your Python server script separately.
-                </p>
-            </div>
-        `,
+        sendButton.disabled = true;
+        sendButton.textContent = "Connecting...";
+        observerStatus.textContent = "Connecting to Python backend...";
+        observerOutput.textContent = "Waiting for response...";
+        serverStatus.textContent = "Waiting for server...";
+        serverOutput.textContent = "No response yet.";
 
-        client: `
-            <div class="module-form-box">
-                <h3>TELNET Client Connection</h3>
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    protocol: protocol,
+                    username: username,
+                    password: password,
+                    message: message
+                })
+            });
 
-                <form id="telnet-form">
-                    <label for="telnet-host">Server Host</label>
-                    <input id="telnet-host" value="127.0.0.1"
-                           required>
+            const result = await response.json();
 
-                    <label for="telnet-port">Port</label>
-                    <input id="telnet-port" type="number"
-                           value="5000" min="1" max="65535" required>
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || "Request failed.");
+            }
 
-                    <label for="telnet-user">Username</label>
-                    <input id="telnet-user" autocomplete="off"
-                           required>
+            observerStatus.textContent =
+                protocol === "telnet"
+                    ? "Plaintext information"
+                    : "SSH encrypted transport";
 
-                    <label for="telnet-password">Demo Password</label>
-                    <input id="telnet-password" type="password"
-                           autocomplete="off" required>
-
-                    <label for="telnet-message">Message</label>
-                    <textarea id="telnet-message" rows="3"
-                              required></textarea>
-
-                    <button type="submit">Validate Inputs</button>
-                </form>
-
-                <p class="form-status" id="form-status"
-                   aria-live="polite"></p>
-                <p class="form-note">
-                    Use fake credentials only. This form does not
-                    transmit information or connect to the server.
-                </p>
-            </div>
-        `,
-
-        ssh: `
-            <div class="module-form-box">
-                <h3>SSH Client Connection</h3>
-
-                <form id="ssh-form">
-                    <label for="ssh-host">SSH Server Host</label>
-                    <input id="ssh-host" value="127.0.0.1"
-                           required>
-
-                    <label for="ssh-port">SSH Port</label>
-                    <input id="ssh-port" type="number"
-                           value="22" min="1" max="65535" required>
-
-                    <label for="ssh-user">Username</label>
-                    <input id="ssh-user" autocomplete="off"
-                           required>
-
-                    <label for="ssh-password">Demo Password</label>
-                    <input id="ssh-password" type="password"
-                           autocomplete="off" required>
-
-                    <button type="submit">Validate Inputs</button>
-                </form>
-
-                <p class="form-status" id="form-status"
-                   aria-live="polite"></p>
-                <p class="form-note">
-                    Actual SSH authentication must be implemented
-                    by your Python SSH client.
-                </p>
-            </div>
-        `,
-
-        simulation: `
-            <div class="module-form-box">
-                <h3>SSH Security Simulation</h3>
-
-                <form id="simulation-form">
-                    <label for="sim-user">Demo Username</label>
-                    <input id="sim-user" autocomplete="off" required>
-
-                    <label for="sim-password">Demo Password</label>
-                    <input id="sim-password" type="password"
-                           autocomplete="off" required>
-
-                    <button type="submit">Run Simulation</button>
-                </form>
-
-                <p class="form-status" id="form-status"
-                   aria-live="polite"></p>
-                <p class="form-note">
-                    This is a local simulation, not real SSH
-                    authentication.
-                </p>
-            </div>
-        `
-    };
-
-    container.innerHTML = forms[moduleName] || "";
-
-    const status = document.getElementById("form-status");
-
-    if (moduleName === "server") {
-        document.getElementById("server-form").addEventListener(
-            "submit", function(event) {
-                event.preventDefault();
-
-                const host = document.getElementById("server-host")
-                    .value.trim();
-                const port = Number(
-                    document.getElementById("server-port").value
+            observerOutput.textContent =
+                result.observer ||
+                (
+                    protocol === "telnet"
+                        ? "TELNET does not encrypt transmitted data."
+                        : "SSH encrypts application data in transit."
                 );
 
-                if (!host || !Number.isInteger(port) ||
-                    port < 1 || port > 65535) {
-                    status.textContent = "Enter a valid host and port.";
-                    return;
-                }
+            serverStatus.textContent =
+                "Response from " + (result.server_address || "server");
 
-                status.textContent =
-                    "Settings valid for " + host + ":" + port +
-                    ". Start the Python server separately.";
-            }
-        );
+            // Show plaintext credentials for TELNET.
+            // Mask the password for SSH.
+            const displayedPassword =
+                protocol === "telnet"
+                    ? password
+                    : "*".repeat(password.length);
 
-        document.getElementById("stop-server").addEventListener(
-            "click", function() {
-                document.getElementById("server-form").reset();
-                status.textContent =
-                    "Form reset. No real server was started or stopped.";
-            }
-        );
-    }
+            serverOutput.textContent =
+                "Username: " + username + "\n" +
+                "Password: " + displayedPassword + "\n\n" +
+                (result.server || "No server output.");
 
-    const formIds = {
-        client: "telnet-form",
-        ssh: "ssh-form",
-        simulation: "simulation-form"
-    };
+        } catch (error) {
+            const errorMessage = error instanceof Error
+                ? error.message
+                : String(error);
 
-    const form = formIds[moduleName]
-        ? document.getElementById(formIds[moduleName])
-        : null;
+            observerStatus.textContent = "Connection failed";
+            observerOutput.textContent =
+                "Connection error: " + errorMessage +
+                "\n\nMake sure Flask is running:\npython app.py";
 
-    if (form) {
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
+            serverStatus.textContent = "No response";
+            serverOutput.textContent =
+                "Could not contact the Python backend.";
 
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            if (moduleName === "client") {
-                status.textContent =
-                    "Inputs validated. Run your Python TELNET client " +
-                    "to send data to the running server.";
-            } else if (moduleName === "ssh") {
-                status.textContent =
-                    "Inputs validated. Run your Python SSH client " +
-                    "to establish an encrypted connection.";
-            } else {
-                status.textContent =
-                    "Simulation complete. The password was masked " +
-                    "during entry. No real SSH authentication occurred.";
-            }
-
-            // Do not retain demo passwords after submission.
-            form.querySelectorAll('input[type="password"]')
-                .forEach(function(input) {
-                    input.value = "";
-                });
-        });
-    }
-}
-
-function showRunGuide() {
-    document.getElementById("module-form").replaceChildren();
-
-    document.getElementById("module-title").textContent =
-        "Run the Project";
-
-    document.getElementById("module-description").textContent =
-        "Use your existing Python launcher and module scripts " +
-        "to run the actual network demonstrations.";
-
-    const steps = [
-        "Open your project folder in a terminal.",
-        "Check the actual Python filenames in your folder.",
-        "Run the relevant server before starting its client.",
-        "For SSH, ensure an SSH server is running and accessible."
-    ];
-
-    const stepsList = document.getElementById("module-steps");
-    stepsList.replaceChildren();
-
-    steps.forEach(function(step) {
-        const item = document.createElement("li");
-        item.textContent = step;
-        stepsList.appendChild(item);
-    });
-
-    displayTerminal([
-        "Run Guide",
-        "The webpage provides module forms and instructions.",
-        "Python scripts handle actual network communication.",
-        "Use the filenames that exist in your project folder."
-    ]);
-
-    document.getElementById("demo").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+        } finally {
+            sendButton.disabled = false;
+            sendButton.textContent = "Send Packet";
+        }
     });
 }
